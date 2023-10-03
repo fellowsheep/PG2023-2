@@ -12,8 +12,16 @@ Sprite::~Sprite()
 	glDeleteVertexArrays(1, &VAO);
 }
 
-void Sprite::initialize()
+void Sprite::initialize(int nAnimations, int nFrames)
 {
+	this->nAnimations = nAnimations;
+	this->nFrames = nFrames;
+	ds = 1.0 / (float) nFrames;
+	dt = 1.0 / (float)nAnimations;
+	iFrame = 0;
+	iAnimation = 0;
+	
+	
 	// Aqui setamos as coordenadas x, y e z do triângulo e as armazenamos de forma
 	// sequencial, já visando mandar para o VBO (Vertex Buffer Objects)
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
@@ -22,13 +30,13 @@ void Sprite::initialize()
 		//Primeiro Triângulo
 		//x   y     z    s    t   
 		-0.5, -0.5, 0.0, 0.0, 0.0, //v0
-		 0.5,  0.5, 0.0, 1.0, 1.0, //v1
-		-0.5,  0.5, 0.0, 0.0, 1.0, //v2
+		 0.5,  0.5, 0.0, ds, dt, //v1
+		-0.5,  0.5, 0.0, 0.0, dt, //v2
 
 		//Segundo Triângulo
 		-0.5, -0.5, 0.0, 0.0, 0.0, //v0
-		 0.5, -0.5, 0.0, 1.0, 0.0, //v3 
-		 0.5,  0.5, 0.0, 1.0, 1.0, //v1
+		 0.5, -0.5, 0.0, ds, 0.0, //v3 
+		 0.5,  0.5, 0.0, ds, dt, //v1
 	};
 
 	GLuint VBO;
@@ -81,6 +89,12 @@ void Sprite::update()
 	model = glm::scale(model, dimensions);
 	//Enviando a matriz de modelo para o shader
 	shader->setMat4("model", glm::value_ptr(model));
+
+	shader->setVec2("offsets", iFrame * ds, iAnimation * dt);
+
+	//para animações cíclicas, sempre incrementa o índice do Frame
+	iFrame = (iFrame + 1) % nFrames;
+
 
 	//Desconecta com o VAO
 	glBindVertexArray(0);

@@ -13,7 +13,7 @@ class Sprite
 public:
 	Sprite();
 	~Sprite();
-	void initialize();
+	void initialize(int nAnimations, int nFrames);
 	inline void setTexID(GLuint texID) { this->texID = texID; }
 
 	inline void setPosition(glm::vec3 position) { this->position = position; }
@@ -36,6 +36,10 @@ protected:
 	float vel;
 
 	Shader* shader; //armazena o endereço do shader
+
+	int nAnimations, nFrames, iAnimation, iFrame;
+	float ds, dt;
+
 
 };
 

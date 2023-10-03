@@ -93,21 +93,21 @@ int main()
 
 	//Fazendo a leitura da textura do personagem
 	int sprWidth, sprHeight;
-	int texID = setupTexture("../../Textures/characters/PNG/Knight/Idle/idle1.png", sprWidth, sprHeight);
+	int texID = setupTexture("../../Textures/characters/PNG/Knight/walk.png", sprWidth, sprHeight);
 
 	int sprWidth2, sprHeight2;
 	int texID2 = setupTexture("../../Textures/backgrounds/PNG/Postapocalypce1/Bright/postapocalypse1.png", sprWidth2, sprHeight2);
 
 	// Criando a instância de nosso objeto sprite do Personagem
-	personagem.initialize();
+	personagem.initialize(1,6);
 	personagem.setPosition(glm::vec3(400.0, 300.0, 0.0));
-	personagem.setDimensions(glm::vec3(sprWidth, sprHeight, 1.0));
+	personagem.setDimensions(glm::vec3(sprWidth/6, sprHeight, 1.0));
 	personagem.setShader(&shader);
 	personagem.setTexID(texID);
 
 	//Criando a instância de nosso objeto sprite do fundo (background)
 	Sprite background;
-	background.initialize();
+	background.initialize(1,1);
 	background.setPosition(glm::vec3(400.0, 300.0, 0.0));
 	background.setDimensions(glm::vec3(sprWidth2, sprHeight2, 1.0));
 	background.setShader(&shader);
@@ -178,11 +178,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
-	if (key == GLFW_KEY_A || key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+	if ( key == GLFW_KEY_A || key == GLFW_KEY_LEFT )
 	{
 		personagem.moveLeft();
 	}
-	if (key == GLFW_KEY_D || key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+	if ( key == GLFW_KEY_D || key == GLFW_KEY_RIGHT )
 	{
 		personagem.moveRight();
 	}
