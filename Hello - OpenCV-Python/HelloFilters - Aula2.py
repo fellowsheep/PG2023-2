@@ -36,13 +36,18 @@ abs_grad_y = cv.convertScaleAbs(grad_y)
     
 grad = cv.addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0)
 
-
+imgDilation = cv.dilate(imgBaboonCanny,(15,15),iterations = 1)
+imgErosion = cv.erode(imgDilation,(3,3),iterations = 1)
 
 cv.imshow('Img grayscale:',imgGray)
-cv.imshow('Img blur 5x5', imgBlurred5x5)
-cv.imshow('Img gaussian blur 5x5', imgBaboonGaussianBlurred5x5)
+#cv.imshow('Img blur 5x5', imgBlurred5x5)
+#cv.imshow('Img gaussian blur 5x5', imgBaboonGaussianBlurred5x5)
 cv.imshow('Baboon canny',imgBaboonCanny)
-cv.imshow('Baboon Sobel', grad)
+#cv.imshow('Baboon Sobel', grad)
+cv.imshow('Dilatação:',imgDilation)
+cv.imshow('Erosão:',imgErosion)
+
+
 
 cv.waitKey(0)
 cv.destroyAllWindows()
